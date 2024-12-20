@@ -1,66 +1,118 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel 11 Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based project with features such as logging incoming requests, optimizing database queries with eager loading, and handling `Profile` models with factories and seeders.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Logs incoming requests including Request URL, HTTP Method, and Request Time.
+- Optimizes database queries using eager loading to reduce unnecessary queries.
+- Profile model associated with the User model, using factories and seeders for data generation.
+- Custom middleware for logging request details to a custom log file (`storage/logs/custom.log`).
+- Supports `/dashboard` route with applied middleware for logging requests.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Technologies
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **PHP**: ^8.2
+- **Laravel Framework**: ^11.31
+- **MySQL
+- **Faker**: For generating fake data with factories.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/laravel-11-app.git
+    cd laravel-11-app
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. Install dependencies:
+    ```bash
+    composer install
+    ```
 
-### Premium Partners
+3. Set up environment variables:
+    ```bash
+    cp .env.example .env
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+4. Generate the application key:
+    ```bash
+    php artisan key:generate
+    ```
 
-## Contributing
+5. Configure the database in `.env`:
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=your_database_name
+    DB_USERNAME=your_username
+    DB_PASSWORD=your_password
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. Run migrations:
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
 
-## Code of Conduct
+7. Seed the database with sample data:
+    ```bash
+    php artisan db:seed
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+8. Start the development server:
+    ```bash
+    php artisan serve
+    ```
 
-## Security Vulnerabilities
+9. Access the application at:
+    ``` 
+    http://localhost:8000
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+10. For unit testing, run the following command:
+    ```bash
+    php artisan test
+    ```
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Routes
+
+### 1. Dashboard Route with Logging Middleware
+**GET** `/dashboard`
+This route is protected by the custom logging middleware (`incoming-request-log`). It logs the request URL, HTTP method, and request time to `storage/logs/custom.log`.
+### 2. User Route with profile
+**GET** `/user-profile`
+---
+
+## Features Overview
+
+### Custom Middleware for Request Logging
+
+- **Middleware**: `LogRequestDetails`
+- **Log Details**:
+    - **Request URL**
+    - **HTTP Method**
+    - **Request Time**
+
+**Location of Log**: `storage/logs/custom.log`
+
+#### How It Works:
+The `LogRequestDetails` middleware logs the request details and stores them in a custom log file. It is applied to routes such as `/dashboard`.
+
+### Optimizing Eloquent Queries with Eager Loading
+
+Before optimization:
+
+```php
+$users = User::all();
+foreach ($users as $user) {
+    echo $user->profile->name;
+}
