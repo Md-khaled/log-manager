@@ -27,8 +27,8 @@ A Laravel-based project with features such as logging incoming requests, optimiz
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/laravel-11-app.git
-    cd laravel-11-app
+    git clone https://github.com/Md-khaled/log-manager.git
+    cd log-manager
     ```
 
 2. Install dependencies:
